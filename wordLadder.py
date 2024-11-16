@@ -4,13 +4,12 @@ class Solution:
         wordList, seen = set(wordList), set()
         if endWord not in wordList: return 0
         words = "abcdefghijklmnopqrstuvwxyz"
-        queue = [beginWord]
+        queue = deque([beginWord])
         wordLength = len(beginWord)
         while queue:
-            curr_len = len(queue)
             res+=1
-            for i in range(curr_len):
-                node = queue.pop(0)
+            for i in range(len(queue)):
+                node = queue.popleft()
                 seen.add(node)
                 for i in range(wordLength):
                     left, right = node[:i], node[i+1:]
@@ -18,7 +17,7 @@ class Solution:
                         curr = left+c+right
                         if curr==endWord:
                             return res+1
-                        if curr not in seen and curr in wordList:
+                        if curr in wordList and curr not in seen:
                             queue.append(curr)
         return 0
 
@@ -50,4 +49,31 @@ class Solution:
 #                 endSet = newSet
 #             else:
 #                 beginSet = newSet
+#         return 0
+
+# neetcode solution usage adjacency list created with O(n*m) and overall tc 
+# class Solution:
+#     def ladderLength(self, beginWord: str, endWord: str, wordList: List[str]) -> int:
+#         if endWord not in wordList: return 0 
+#         nei = collections.defaultdict(list)
+#         wordList.append(beginWord)
+#         for word in wordList:
+#             for j in range(len(word)):
+#                 pattern = word[:j]+"*"+word[j+1:]
+#                 nei[pattern].append(word)
+#         seen = set(beginWord)
+#         q = [beginWord]
+#         res = 0
+#         while q:
+#             res+=1
+#             for i in range(len(q)):
+#                 word = q.pop(0)
+#                 if word == endWord:
+#                     return res
+#                 for j in range(len(word)):
+#                     pattern = word[:j]+"*"+word[j+1:]
+#                     for neiWord in nei[pattern]:
+#                         if neiWord not in seen:
+#                             seen.add(neiWord)
+#                             q.append(neiWord)
 #         return 0
