@@ -1,0 +1,54 @@
+class Solution:
+    def maxDifference(self, s: str, k: int) -> int:
+        # from editorial half part is not understandable still
+        def get_status(cnt_a, cnt_b):
+            return ((cnt_a & 1) << 1) | (cnt_b & 1)
+
+        n = len(s)
+        ans = float("-inf")
+        for a in ['0', '1', '2', '3', '4']:
+            for b in ['0', '1', '2', '3', '4']:
+                if a == b: continue
+
+                best= [float("inf")]*4
+                cnt_a = cnt_b = 0
+                prev_a = prev_b = 0
+                left = -1
+                for right in range(n):
+                    cnt_a += s[right]==a
+                    cnt_b += s[right]==b
+
+                    while right-left>=k and cnt_b - prev_b >=2:
+                        left_status = get_status(prev_a, prev_b)
+                        best[left_status] = min(best[left_status], prev_a - prev_b)
+                        left += 1
+                        
+                        prev_a += s[left] == a
+                        prev_b += s[left] ==b
+                    
+                    right_status = get_status(cnt_a, cnt_b)
+                    if best[right_status ^ 0b10]  != float("inf"):
+                        ans = max(ans, cnt_a - cnt_b - best[right_status ^ 0b10])
+                    
+        return ans
+
+        # brute force
+        # max_diff = float("-inf")
+        # n = len(s)
+        
+        # for window_size in range(k, n+1):
+        #     for i in range(n-window_size+1):
+        #         frequency = Counter(s[i:i+window_size])
+        #         even, odd = float("inf"), float("-inf")
+
+        #         for c, freq in frequency.items():
+        #             if freq%2:
+        #                 if freq>odd:
+        #                     odd = freq
+        #             else:
+        #                 if freq<even:
+        #                     even = freq
+
+        #         max_diff = max(max_diff, odd-even)
+        
+        # return max_diff
