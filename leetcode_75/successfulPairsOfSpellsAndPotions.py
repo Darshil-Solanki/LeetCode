@@ -1,18 +1,31 @@
 class Solution:
-    def successfulPairs(self, spells: List[int], potions: List[int], success: int) -> List[int]:
+    def successfulPairs(
+        self, spells: List[int], potions: List[int], success: int
+    ) -> List[int]:
         potions.sort()
         n = len(potions)
         ans = []
         for spell in spells:
-            left, right = 0, n-1
-            while left<=right:
-                mid = (left+right)//2
-                if spell*potions[mid]>=success:
-                    right = mid-1
+            left, right = 0, n - 1
+            while left <= right:
+                mid = (left + right) // 2
+                if spell * potions[mid] >= success:
+                    right = mid - 1
                 else:
-                    left = mid+1 
-            ans.append(n-left)
+                    left = mid + 1
+            ans.append(n - left)
         return ans
+
+        # similar approach using math to find min require and built in method to binary search leads faster approach
+        # potions.sort()
+        # n = len(potions)
+        # result = []
+
+        # for spell in spells:
+        #     min_needed = ceil(success/spell) #( success + spell - 1 ) // spell  # Equivalent to ceil(success / spell)
+        #     index = bisect_left(potions, min_needed)
+        #     result.append(n - index)  # All potions from index to end are valid
+        # return result
 
         # fastest method from submission
         # max_potion = max(potions)
