@@ -26,3 +26,21 @@ class Solution:
                 right = mid-1
         
         return ans
+
+# O(n) faster approach
+# class Solution:
+#     def maxIncreasingSubarrays(self, nums: List[int]) -> int:
+#         last_inc_len = 1
+#         cur_inc_len = 1
+#         ans = 1
+
+#         last = nums[0]
+#         for n in nums:
+#             if n > last:
+#                 cur_inc_len += 1
+#             else:
+#                 ans = max(ans, min(last_inc_len, cur_inc_len), cur_inc_len // 2)
+#                 last_inc_len = cur_inc_len
+#                 cur_inc_len = 1
+#             last = n
+#         return max(ans, min(last_inc_len, cur_inc_len), cur_inc_len // 2)
