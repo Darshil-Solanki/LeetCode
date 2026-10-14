@@ -5,6 +5,7 @@ class Solution:
         ans = "9"*qut + (str(rem) if rem else "")
         return ans + "0"*(num-len(ans))
 
+        # TLE
         # self.ans = ""
         # self.m_square = 0
         
